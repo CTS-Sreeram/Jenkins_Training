@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Salesforce Best Practices"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+    <description>
+        Salesforce Apex best practices ruleset for improving code quality,
+        maintainability, and adherence to Salesforce development standards.
+    </description>
+
+    <!-- Basic Code Quality Rules -->
+    
+    <!-- Detects when a local variable is declared and/or assigned, but not used -->
+    <rule ref="category/apex/errorprone.xml/UnusedLocalVariable">
+        <priority>3</priority>
+    </rule>
+    
+    <!-- Detects parameters that are never used within the method body -->
+    <rule ref="category/apex/errorprone.xml/UnusedMethod">
+        <priority>3</priority>
+    </rule>
+    
+    <!-- Detects when a field is declared and/or assigned, but not used -->
+    <rule ref="category/apex/errorprone.xml/UnusedVariable">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects when a catch block is empty -->
+    <rule ref="category/apex/errorprone.xml/EmptyCatchBlock">
+        <priority>3</priority>
+        <properties>
+            <property name="allowCommentedBlocks" value="false"/>
+        </properties>
+    </rule>
+
+    <!-- Detects when a finally block is empty -->
+    <rule ref="category/apex/errorprone.xml/EmptyFinallyBlock">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects when a if statement has an empty then block -->
+    <rule ref="category/apex/errorprone.xml/EmptyIfStmt">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects when a while statement has an empty body -->
+    <rule ref="category/apex/errorprone.xml/EmptyWhileStmt">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects when a for statement has an empty body -->
+    <rule ref="category/apex/errorprone.xml/EmptyForStmt">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects usage of System.debug statements in production code -->
+    <rule ref="category/apex/errorprone.xml/SystemDebugStatement">
+        <priority>2</priority>
+    </rule>
+
+    <!-- Detects equals method that does not check for null on the input parameter -->
+    <rule ref="category/apex/errorprone.xml/EqualsNull">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects when Object.clone() is used without type casting -->
+    <rule ref="category/apex/errorprone.xml/InefficientEmptyStringCheck">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Performance and Scalability Rules -->
+
+    <!-- Detects when a SOQL query is inside a loop -->
+    <rule ref="category/apex/performance.xml/OperationWithLimitsInLoop">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Detects when SOQL queries that retrieve large number of records -->
+    <rule ref="category/apex/performance.xml/EagerlyLoadedDescribeSObjectResult">
+        <priority>2</priority>
+    </rule>
+
+    <!-- Detects when a SOQL query does not have a WHERE clause -->
+    <rule ref="category/apex/performance.xml/AvoidSoqlOutsideLoops">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Detects when a SOQL query selects all fields using * -->
+    <rule ref="category/apex/performance.xml/AvoidSoqlInLoops">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Detects when database operations are inside loops -->
+    <rule ref="category/apex/performance.xml/AvoidDmlStatementInLoops">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Detects when a loop is used to update records instead of bulk operations -->
+    <rule ref="category/apex/performance.xml/AvoidBulkDml">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Design and Best Practices Rules -->
+
+    <!-- Detects classes with too many methods -->
+    <rule ref="category/apex/design.xml/ExcessiveClassLength">
+        <priority>3</priority>
+        <properties>
+            <property name="minimum" value="1000"/>
+        </properties>
+    </rule>
+
+    <!-- Detects methods with too many parameters -->
+    <rule ref="category/apex/design.xml/ExcessiveParameterList">
+        <priority>3</priority>
+        <properties>
+            <property name="minimum" value="7"/>
+        </properties>
+    </rule>
+
+    <!-- Detects methods that are too long -->
+    <rule ref="category/apex/design.xml/ExcessivePublicCount">
+        <priority>3</priority>
+        <properties>
+            <property name="minimum" value="19"/>
+        </properties>
+    </rule>
+
+    <!-- Detects overly complex code (cyclomatic complexity) -->
+    <rule ref="category/apex/design.xml/CognitiveComplexity">
+        <priority>3</priority>
+        <properties>
+            <property name="reportLevel" value="15"/>
+        </properties>
+    </rule>
+
+    <!-- Detects assignments in conditional statements -->
+    <rule ref="category/apex/design.xml/AssignmentInOperand">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects duplicate method/variable names -->
+    <rule ref="category/apex/design.xml/DuplicateKeyInMap">
+        <priority>2</priority>
+    </rule>
+
+    <!-- Detects inconsistent field naming -->
+    <rule ref="category/apex/design.xml/FieldNamingConventions">
+        <priority>3</priority>
+        <properties>
+            <property name="publicConstantPattern" value="[A-Z][A-Z0-9]*(_[A-Z0-9]+)*"/>
+            <property name="constantPattern" value="[a-z][a-zA-Z0-9]*"/>
+            <property name="enumConstantPattern" value="[A-Z][A-Z0-9]*(_[A-Z0-9]+)*"/>
+            <property name="finalFieldPattern" value="[a-z][a-zA-Z0-9]*"/>
+            <property name="staticFieldPattern" value="[a-z][a-zA-Z0-9]*"/>
+            <property name="instanceFieldPattern" value="[a-z][a-zA-Z0-9]*"/>
+        </properties>
+    </rule>
+
+    <!-- Detects method naming convention violations -->
+    <rule ref="category/apex/design.xml/MethodNamingConventions">
+        <priority>3</priority>
+        <properties>
+            <property name="staticMethodPattern" value="[a-z][a-zA-Z0-9]*"/>
+            <property name="instanceMethodPattern" value="[a-z][a-zA-Z0-9]*"/>
+        </properties>
+    </rule>
+
+    <!-- Detects class naming convention violations -->
+    <rule ref="category/apex/design.xml/ClassNamingConventions">
+        <priority>3</priority>
+        <properties>
+            <property name="classPattern" value="[A-Z][a-zA-Z0-9]*"/>
+            <property name="interfacePattern" value="[A-Z][a-zA-Z0-9]*"/>
+            <property name="enumPattern" value="[A-Z][a-zA-Z0-9]*"/>
+            <property name="annotationPattern" value="[A-Z][a-zA-Z0-9]*"/>
+            <property name="abstractNamesPattern" value="[A-Z][a-zA-Z0-9]*"/>
+        </properties>
+    </rule>
+
+    <!-- Detects unused local variable parameter -->
+    <rule ref="category/apex/design.xml/VariableNamingConventions">
+        <priority>3</priority>
+        <properties>
+            <property name="localVarPattern" value="[a-z][a-zA-Z0-9]*"/>
+            <property name="parameterPattern" value="[a-z][a-zA-Z0-9]*"/>
+        </properties>
+    </rule>
+
+    <!-- Detects overly broad exception catching -->
+    <rule ref="category/apex/design.xml/AvoidCatchingGenericException">
+        <priority>2</priority>
+    </rule>
+
+    <!-- Detects null pointer dereferences -->
+    <rule ref="category/apex/design.xml/NullPointerException">
+        <priority>2</priority>
+    </rule>
+
+    <!-- Security Rules -->
+
+    <!-- Detects hardcoded passwords/API keys -->
+    <rule ref="category/apex/security.xml/ApexOpenRedirect">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Detects insecure cryptographic implementations -->
+    <rule ref="category/apex/security.xml/ApexCRUDViolation">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Detects XSS vulnerabilities -->
+    <rule ref="category/apex/security.xml/ApexXSSFromEscapeOnContentOutput">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Detects hardcoded secrets -->
+    <rule ref="category/apex/security.xml/ApexInsecureEndpoint">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Code Style Rules -->
+
+    <!-- Detects missing JavaDoc comments on public methods -->
+    <rule ref="category/apex/codestyle.xml/FormalParameterNamingConventions">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects long variable names -->
+    <rule ref="category/apex/codestyle.xml/LocalVariableNamingConventions">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects overly long lines -->
+    <rule ref="category/apex/codestyle.xml/OneDeclarationPerLine">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Best Practices -->
+
+    <!-- Detects incorrect exception handling -->
+    <rule ref="category/apex/bestpractices.xml/ApexUnitTestClassShouldHaveAsserts">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects test methods without assertions -->
+    <rule ref="category/apex/bestpractices.xml/ApexUnitTestMethodShouldStartWithTest">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects missing @isTest annotation -->
+    <rule ref="category/apex/bestpractices.xml/ApexAssertionsShouldIncludeMessage">
+        <priority>3</priority>
+    </rule>
+
+    <!-- Detects assertions without messages -->
+    <rule ref="category/apex/bestpractices.xml/ApexUnitTestShouldNotUseSeeAllData">
+        <priority>2</priority>
+    </rule>
+
+    <!-- Detects test use of seeAllData -->
+    <rule ref="category/apex/bestpractices.xml/AvoidLogicInTrigger">
+        <priority>2</priority>
+    </rule>
+
+    <!-- Detects business logic in triggers -->
+    <rule ref="category/apex/bestpractices.xml/AvoidGlobalModifier">
+        <priority>2</priority>
+    </rule>
+
+    <!-- Detects excessive use of global modifier -->
+    <rule ref="category/apex/bestpractices.xml/AvoidSoqlInFunction">
+        <priority>1</priority>
+    </rule>
+
+    <!-- Detects SOQL in functions without limits check -->
+    <rule ref="category/apex/bestpractices.xml/ReuseObjects">
+        <priority>3</priority>
+    </rule>
+
+</ruleset>
