@@ -26,21 +26,210 @@ logger = logging.getLogger(__name__)
 class DeltaPackageCreator:
     """Creates delta packages by identifying changed files between branches."""
     
-    # Salesforce metadata folder mappings
+    # Comprehensive Salesforce metadata folder mappings
     METADATA_TYPES = {
+        # Apex Components
         'classes': 'ApexClass',
         'components': 'ApexComponent',
         'pages': 'ApexPage',
         'triggers': 'ApexTrigger',
+        'staticresources': 'StaticResource',
+        
+        # Custom Objects & Fields
         'objects': 'CustomObject',
-        'flows': 'Flow',
+        'customMetadata': 'CustomMetadata',
+        'customSettings': 'CustomSetting',
+        
+        # UI & Layout
         'layouts': 'Layout',
+        'flexipages': 'FlexiPage',
+        'aura': 'AuraDefinitionBundle',
+        'lwc': 'LightningComponentBundle',
+        
+        # Automation
+        'flows': 'Flow',
+        'processMetadata': 'ProcessBuilder',
+        'rules': 'WorkflowRule',
+        'workflowRules': 'WorkflowRule',
+        'escalationRules': 'EscalationRule',
+        'quickActions': 'QuickAction',
+        
+        # Data & Security
         'profiles': 'Profile',
         'permissionsets': 'PermissionSet',
-        'staticresources': 'StaticResource',
+        'permissionsetgroups': 'PermissionSetGroup',
+        'roles': 'Role',
         'labels': 'CustomLabel',
-        'customMetadata': 'CustomMetadata',
+        'translations': 'Translation',
+        'globalPicklists': 'GlobalValueSet',
+        'recordTypes': 'RecordType',
+        
+        # Documents & Content
+        'documents': 'Document',
+        'contentassets': 'ContentAsset',
+        'staticresource': 'StaticResource',
+        
+        # Validation & Business Logic
+        'validationRules': 'ValidationRule',
+        'customviews': 'CustomView',
+        'weblinks': 'WebLink',
+        'fields': 'CustomField',
+        
+        # Reports & Dashboards
+        'reports': 'Report',
+        'dashboards': 'Dashboard',
+        'reportTypes': 'ReportType',
+        
+        # Email & Communication
+        'email': 'EmailTemplate',
+        'emailTemplates': 'EmailTemplate',
+        'letterhead': 'Letterhead',
+        'namedCredentials': 'NamedCredential',
+        
+        # Sharing & Settings
+        'sharingRules': 'SharingRules',
+        'sharingCriteriaRules': 'SharingCriteriaRule',
+        'sharingOwnerRules': 'SharingOwnerRule',
+        'sharingTerritoryRules': 'SharingTerritoryRule',
         'settings': 'Settings',
+        'orgPreferences': 'OrganizationSettings',
+        
+        # Integrations & APIs
+        'remoteSiteSettings': 'RemoteSiteSetting',
+        'authproviders': 'AuthProvider',
+        'externalservices': 'ExternalService',
+        'integrations': 'ExternalDataSource',
+        'externalDataSources': 'ExternalDataSource',
+        
+        # Custom Metadata & Services
+        'serviceResources': 'ServiceResource',
+        'serviceSetups': 'ServiceSetup',
+        'customMetadataRecords': 'CustomMetadataRecord',
+        'mobileSettings': 'MobileSettings',
+        
+        # Analytics & AI
+        'analyticsCloudComponents': 'AnalyticsCloudComponent',
+        'predictiveInteraction': 'PredictiveInteraction',
+        'dataSources': 'DataSource',
+        'dataCategoryGroups': 'DataCategoryGroup',
+        'analyticSnapshots': 'AnalyticSnapshot',
+        'waves': 'WaveApplication',
+        'waveDatasets': 'WaveDataset',
+        'waveLenses': 'WaveLens',
+        'waveDashboards': 'WaveDashboard',
+        'waveRecipes': 'WaveRecipe',
+        'wavexmds': 'WaveXmd',
+        
+        # Commerce & B2B
+        'commerceSettings': 'CommerceSettings',
+        'b2bSettings': 'B2bSettings',
+        'partnerNetworkSettings': 'PartnerNetworkSettings',
+        'channelProgramMembers': 'ChannelProgramMember',
+        
+        # CPQ & Billing
+        'cpqSettings': 'CPQSettings',
+        'subscriptionsSettings': 'SubscriptionsSettings',
+        
+        # Marketing & Campaigns
+        'campaign': 'Campaign',
+        'campaignInfluenceModels': 'CampaignInfluenceModel',
+        'marketingCloudSettings': 'MarketingCloudSettings',
+        'emailCampaigns': 'EmailCampaign',
+        
+        # Service Cloud
+        'serviceChannels': 'ServiceChannel',
+        'servicePresenceStatuses': 'ServicePresenceStatus',
+        'skillDefinitions': 'SkillDefinition',
+        'queueSobjectLists': 'QueueSobjectList',
+        'queues': 'Queue',
+        
+        # Content Management
+        'contentVersions': 'ContentVersion',
+        'contentWorkspaces': 'ContentWorkspace',
+        'contentPublishers': 'ContentPublisher',
+        'cmsConnectSource': 'CmsConnectSource',
+        'cmsSource': 'CmsSource',
+        
+        # Metadata Management
+        'metadataTypes': 'MetadataType',
+        'customMetadataTypes': 'CustomMetadataType',
+        'objectTranslations': 'ObjectTranslation',
+        'customTranslations': 'CustomTranslation',
+        
+        # Field Sets & Compact Layouts
+        'fieldSets': 'FieldSet',
+        'compactLayouts': 'CompactLayout',
+        'webLinkGroups': 'WebLinkGroup',
+        'actionOverrides': 'ActionOverride',
+        
+        # Approval & Automation
+        'approvalProcesses': 'ApprovalProcess',
+        'autoResponseRules': 'AutoResponseRule',
+        'assignmentRules': 'AssignmentRule',
+        'escalationRules': 'EscalationRule',
+        
+        # Connector Settings
+        'connectors': 'Connector',
+        'connectorConfigs': 'ConnectorConfig',
+        'connectorTypes': 'ConnectorType',
+        
+        # Event & Platform Events
+        'events': 'PlatformEvent',
+        'platformEventChannelMembers': 'PlatformEventChannelMember',
+        'platformEventSubscriberAccount': 'PlatformEventSubscriberAccount',
+        
+        # Bots & Conversations
+        'bots': 'Bot',
+        'botVersions': 'BotVersion',
+        'conversationVgroups': 'ConversationVgroup',
+        'conversationChannelSettings': 'ConversationChannelSettings',
+        
+        # Org Preferences & Config
+        'orgPrefs': 'OrgPreference',
+        'orgConfigs': 'OrgConfig',
+        'businessProcess': 'BusinessProcess',
+        'customizing': 'Customization',
+        
+        # Lifecycle & Deprecation
+        'liveChatSettings': 'LiveChatSettings',
+        'liveChatVisitorSettings': 'LiveChatVisitorSettings',
+        'liveChatAgentConfigs': 'LiveChatAgentConfig',
+        'liveChatButtonInviteSettings': 'LiveChatButtonInviteSettings',
+        
+        # Industry Specific
+        'healthCareSettings': 'HealthCareSettings',
+        'financialServicesSettings': 'FinancialServicesSettings',
+        'fscSettings': 'FscSettings',
+        
+        # Einstein & AI
+        'einsteinSettings': 'EinsteinSettings',
+        'einsteinCreativity': 'EinsteinCreativity',
+        'einsteinBuildConfig': 'EinsteinBuildConfig',
+        'einsteinDatasetDefinition': 'EinsteinDatasetDefinition',
+        
+        # Other Metadata
+        'sanitizationRules': 'SanitizationRule',
+        'secureAgentPlugins': 'SecureAgentPlugin',
+        'secureAgentPluginConfigurations': 'SecureAgentPluginConfiguration',
+        'testSuites': 'TestSuite',
+        'testDefinitions': 'TestDefinition',
+        'timeSheetTemplates': 'TimeSheetTemplate',
+        'timeSheetTemplateAssociation': 'TimeSheetTemplateAssociation',
+        'timelineObjectDefinitions': 'TimelineObjectDefinition',
+        'timelineRelationDefinitions': 'TimelineRelationDefinition',
+        'topicsForObjects': 'TopicsForObjects',
+        'trustedDomains': 'TrustedDomain',
+        'trustedIpRanges': 'TrustedIpRange',
+        'userCriteria': 'UserCriteria',
+        'userEngagementSettings': 'UserEngagementSettings',
+        'userInterfaceSettings': 'UserInterfaceSettings',
+        'userProvisioningConfig': 'UserProvisioningConfig',
+        'userProfile': 'UserProfile',
+        'userSearch': 'UserSearch',
+        'workspaceMapping': 'WorkspaceMapping',
+        'wrappedComponent': 'WrappedComponent',
+        'xsoDataSourceConfigs': 'XsoDataSourceConfig',
+        'xsoDataSource': 'XsoDataSource',
     }
     
     def __init__(self, source_branch, target_branch, output_path, source_env, target_env):
@@ -154,7 +343,52 @@ class DeltaPackageCreator:
             'flows',
             'layouts',
             'profiles',
-            'permissionsets'
+            'permissionsets',
+            'reports',
+            'dashboards',
+            'aura',
+            'lwc',
+            'staticresources',
+            'customMetadata',
+            'customSettings',
+            'flexipages',
+            'approvalProcesses',
+            'workflows',
+            'rules',
+            'email',
+            'documents',
+            'labels',
+            'weblinks',
+            'validationRules',
+            'customViews',
+            'recordTypes',
+            'sharingRules',
+            'remoteSiteSettings',
+            'authproviders',
+            'externalDataSources',
+            'translations',
+            'globalPicklists',
+            'quickActions',
+            'escalationRules',
+            'assignmentRules',
+            'autoResponseRules',
+            'letterhead',
+            'namedCredentials',
+            'bots',
+            'analyzedReports',
+            'contentassets',
+            'platformEvents',
+            'waves',
+            'analyticSnapshots',
+            'customMetadataRecords',
+            'compactLayouts',
+            'fieldSets',
+            'objectTranslations',
+            'automationRules',
+            'queues',
+            'serviceChannels',
+            'skillDefinitions',
+            'serviceResources',
         ]
         
         # Check if file is in a Salesforce directory
@@ -168,8 +402,25 @@ class DeltaPackageCreator:
         """Get Salesforce metadata type from filepath."""
         filepath_lower = filepath.lower()
         
+        # Try exact folder matching first
         for folder, metadata_type in self.METADATA_TYPES.items():
             if f"/{folder}/" in filepath_lower or f"\\{folder}\\" in filepath_lower:
+                return metadata_type
+        
+        # Try extension-based matching
+        extension_map = {
+            '.cls': 'ApexClass',
+            '.trigger': 'ApexTrigger',
+            '.page': 'ApexPage',
+            '.component': 'ApexComponent',
+            '.xml': 'CustomMetadata',
+            '.json': 'CustomMetadata',
+            '.yaml': 'CustomMetadata',
+            '.yml': 'CustomMetadata',
+        }
+        
+        for ext, metadata_type in extension_map.items():
+            if filepath_lower.endswith(ext):
                 return metadata_type
         
         return "Unknown"
